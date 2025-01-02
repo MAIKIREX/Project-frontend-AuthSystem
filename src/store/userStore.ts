@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface UserState {
     email: string | null; // Identificador del usuario
@@ -8,12 +9,20 @@ interface UserState {
     clearUser: () => void; // Limpiar estado
 }
 
-const useUserStore = create<UserState>((set) => ({
-    email: null,
-    role: null,
-    token: null,
-    setUser: (email, role, token) => set({ email, role, token }),
-    clearUser: () => set({ email: null, role: null, token: null }),
-}));
+const useUserStore = create(
+    persist<UserState>(
+        (set) => ({
+            email: null,
+            role: null,
+            token: null,
+            setUser: (email, role, token) => set({ email, role, token }),
+            clearUser: () => set({ email: null, role: null, token: null }),
+        }),
+        {
+            name: "user-store", // Clave para localStorage
+            partialize: (state) => ({ email: state.email, role: state.role, token: state.token }), // Campos a persistir
+        }
+    )
+);
 
 export default useUserStore;

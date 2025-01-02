@@ -14,7 +14,7 @@ export default function RegisterConfirmationPage() {
                     clic en el enlace para activar tu cuenta.
                 </p>
                 <div className="mt-6">
-                    <Link href="/auth">
+                    <Link href="/">
                         <Button
                             variant={"Darkmode1"}
                         >
